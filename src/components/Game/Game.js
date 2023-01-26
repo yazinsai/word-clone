@@ -16,7 +16,7 @@ function Game() {
 
   function addGuess(value) {
     setGuess(value);
-    setGuesses([...guesses, value]);
+    setGuesses([...guesses, {guess: value, id: Math.random()}]);
   }
 
   return (
