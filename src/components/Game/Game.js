@@ -31,11 +31,13 @@ function Game() {
     }
   }
 
+  const numTries = guesses.filter(guess => guess).length;
+
   return (
     <>
       <GuessList guesses={guesses} answer={answer}></GuessList>
       <GuessInput disabled={finished} addGuess={addGuess}></GuessInput>
-      <Banner visible={finished} result={result} answer={answer} /> 
+      <Banner visible={finished} tries={numTries} result={result} answer={answer} /> 
     </>
   );
 }

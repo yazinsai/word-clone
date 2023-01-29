@@ -1,14 +1,14 @@
 import React from "react";
 
-function Banner({ visible, result, answer }) {
+function Banner({ visible, result, answer, tries }) {
   if (!visible) return null;
   
   return (
     <div className={`banner ${result}`}>
       {result === 'happy' && (
         <p>
-          <strong>Congratulations!</strong> Got it in
-          <strong>3 guesses</strong>.
+          <strong>Congratulations!</strong> Got it in&nbsp;
+          <strong>{tries} guesses</strong>.
         </p>
       )}
       {result === 'sad' && (
