@@ -5,6 +5,7 @@ import { WORDS } from '../../data';
 import GuessInput from '../GuessInput';
 import GuessList from '../GuessList';
 import Banner from '../Banner/Banner';
+import { NUM_OF_GUESSES_ALLOWED } from '../../constants';
 
 function Game() {
   const [answer, setAnswer] = React.useState(sample(WORDS));
@@ -31,7 +32,7 @@ function Game() {
     if (value === answer) {
       setFinished(true);
       setResult('happy');
-    } else if (nextGuesses.length === 6) {
+    } else if (nextGuesses.length >= NUM_OF_GUESSES_ALLOWED) {
       setFinished(true);
       setResult('sad');
     }
