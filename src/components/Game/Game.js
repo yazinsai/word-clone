@@ -11,8 +11,9 @@ function Game() {
   const [answer, setAnswer] = React.useState(sample(WORDS));
   const [guess, setGuess] = React.useState('');
   const [guesses, setGuesses] = React.useState([]);
-  const [finished, setFinished] = React.useState(false);
-  const [result, setResult] = React.useState(null);
+
+  // playing, won, lost
+  const [gameStatus, setGameStatus] = React.useState('playing');
 
   console.info({ answer });
 
@@ -20,8 +21,7 @@ function Game() {
     setAnswer(sample(WORDS));
     setGuess('');
     setGuesses([]);
-    setFinished(false);
-    setResult(null);
+    setGameStatus('playing');
   }
 
   function addGuess(value) {
@@ -30,21 +30,37 @@ function Game() {
     setGuesses(nextGuesses);
 
     if (value === answer) {
-      setFinished(true);
-      setResult('happy');
+      setGameStatus('won')
     } else if (nextGuesses.length >= NUM_OF_GUESSES_ALLOWED) {
-      setFinished(true);
-      setResult('sad');
+      setGameStatus('lost')
     }
   }
 
-  const numTries = guesses.filter(guess => guess).length;
+  const bannerStatus = gameStatus === 'won' ? 'happy' :
+    gameStatus === 'lost' ? 'sad' : '';
 
   return (
     <>
       <GuessList guesses={guesses} answer={answer}></GuessList>
-      <GuessInput disabled={finished} addGuess={addGuess}></GuessInput>
-      <Banner visible={finished} tries={numTries} result={result} answer={answer} triggerReset={handleReset} /> 
+      <GuessInput disabled={gameStatus !== 'playing'} addGuess={addGuess}></GuessInput>
+      <Banner status={bannerStatus}>
+        {gameStatus === 'won' && (
+          <p>
+            <strong>Congratulations!</strong> Got it in
+            {' '}
+            <strong>{guesses.length} guesses</strong>.
+            <a href="#" onClick={handleReset}>Play again</a>
+          </p>
+        )}
+        {gameStatus === 'lost' && (
+          <p>
+            <strong>Sorry!</strong> The answer was
+            {' '}
+            <strong>{answer}</strong>.
+            <a href="#" onClick={handleReset}>Try again</a>
+          </p>
+        )}
+      </Banner>
     </>
   );
 }
